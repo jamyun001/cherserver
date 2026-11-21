@@ -16,7 +16,7 @@ window.PREREG_CONFIG = {
      비워 두면 데모 모드로 동작해요.
      ⚠️ service_role / secret 키는 절대 넣지 마세요! */
   SUPABASE_URL: "",          // 예: "https://abcdxyz.supabase.co"
-  SUPABASE_ANON_KEY: "",     // anon 또는 publishable 키
+  SUPABASE_ANON_KEY: "sb_publishable_gKM8fGDWzUq43obKre65mw_i4o8MIEW",     // anon 또는 publishable 키
 
 
   /* ---------- 2. 서버 기본 정보 ---------- */
