@@ -1,0 +1,96 @@
+/* VOICE: 조용하고 빠른 운영 도구
+   IDEA: 서버 운영 콘솔 — 흙색 상단 바, 블록 같은 숫자 타일
+   PICTURE: 예약자 표가 주인공, 위에 핵심 숫자와 작은 막대 그래프
+   COLOUR and TYPE: 메인 페이지와 같은 잔디·흙·금색 / Black Han Sans 제목 + Noto Sans KR
+   LAYOUT: 상단 바 → 숫자 타일 → 마감 스위치 → 경로·일별 → 랭킹 → 예약자 표 */
+:root{color-scheme:light dark;
+--bg:light-dark(#f6f1e7,#15110d);--card:light-dark(#fffdf8,#221b14);--ink:light-dark(#1d1a14,#f3ede2);
+--mute:light-dark(#5f574b,#b8ad9c);--line:light-dark(#d9cfbd,#3a2f24);
+--grass:#5b9a32;--grass2:#4a7f28;--dirt:#5f3f24;--gold:#f5c542;--err:#d6453d;--ok:light-dark(#3f8f2b,#7cc04a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+h1,h2{font-family:"Black Han Sans","Noto Sans KR",sans-serif;font-weight:400;line-height:1.1;margin:0}
+h2{font-size:22px;margin-bottom:14px}
+.band{padding:24px max(4vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+:is(a,button,input,select):focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.demo{background:var(--gold);color:#1d1a14;text-align:center;font-size:14px;padding:8px 12px}
+.btn{font:inherit;font-weight:700;font-size:15px;min-height:44px;padding:8px 16px;cursor:pointer;border:2px solid #000;background:var(--grass);color:#fff;box-shadow:inset -3px -3px 0 var(--grass2)}
+.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn.danger{background:var(--err);box-shadow:inset -3px -3px 0 #a8322b}
+.btn:disabled{opacity:.6;cursor:wait}
+input[type=text],input[type=email],input[type=password],input[type=search],select{font:inherit;font-size:16px;min-height:44px;padding:8px 12px;background:var(--bg);color:var(--ink);border:2px solid var(--line);border-radius:0;width:100%}
+label{display:block;font-weight:700;margin-bottom:6px}
+.msg{min-height:1.5em;margin-top:10px;font-weight:500}.msg.err{color:var(--err)}
+
+/* 로그인 */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:linear-gradient(var(--dirt) 0 38%,var(--bg) 38%)}
+.login form{width:min(100%,400px);background:var(--card);border:3px solid #000;box-shadow:8px 8px 0 var(--grass2);padding:28px}
+.login h1{font-size:30px;margin-bottom:4px}
+.login p{color:var(--mute);margin:0 0 20px;font-size:14px}
+.login .f{margin-bottom:16px}
+.login .btn{width:100%;font-size:17px;min-height:50px}
+
+/* 상단 바 */
+.top{background:var(--dirt);color:#f3ede2;border-bottom:6px solid var(--grass)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px max(4vw,16px)}
+.top h1{font-size:24px}.top small{display:block;opacity:.75;font-size:13px}
+.top .acts{display:flex;flex-wrap:wrap;gap:8px}
+.top .btn.ghost{background:transparent;color:#f3ede2;border-color:rgba(255,255,255,.3)}
+
+/* 숫자 타일 */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media(max-width:800px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--card);border:2px solid var(--line);padding:14px 16px}
+.kpi small{color:var(--mute);font-size:14px}
+.kpi b{display:block;font-size:clamp(26px,4vw,36px);font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi span{font-size:13px;color:var(--mute)}
+
+.switch{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--card);border:2px solid var(--line);padding:14px 16px;margin-top:12px}
+.switch .st{font-weight:700}.switch .st.on{color:var(--ok)}.switch .st.off{color:var(--err)}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:860px){.two{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--card);border:2px solid var(--line);padding:18px}
+.hrow{display:grid;grid-template-columns:8em minmax(0,1fr) 3.5em;gap:10px;align-items:center;margin-top:8px;font-size:14px}
+.hrow .tr{height:18px;background:color-mix(in srgb,var(--line) 60%,transparent)}
+.hrow .tr i{display:block;height:100%;background:var(--grass)}
+.hrow .v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.days{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;align-items:end;height:150px;margin-top:8px}
+.days .d{display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;font-size:11px;color:var(--mute)}
+.days .d i{display:block;background:var(--grass);min-height:2px}
+.days .d b{font-size:11px;color:var(--ink);font-weight:500}
+.days .d span{white-space:nowrap;margin-top:3px}
+@media(max-width:520px){.days .d span{font-size:9px}}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:13px;color:var(--mute);font-weight:500;white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.t{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:13px;padding:2px 8px;border:1px solid var(--line);white-space:nowrap}
+.chk{width:22px;height:22px;accent-color:var(--grass);cursor:pointer}
+.rowacts{display:flex;gap:6px;justify-content:flex-end}
+.rowacts .btn{min-height:36px;padding:4px 10px;font-size:14px}
+
+.tools{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:700px){.tools{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tools .q{grid-column:1/-1}}
+.more{display:block;margin:14px auto 0}
+.empty{padding:30px;text-align:center;color:var(--mute)}
+
+dialog{border:3px solid #000;background:var(--card);color:var(--ink);padding:24px;width:min(92vw,420px)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h2{font-size:22px}
+dialog .row{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+
+@media(max-width:700px){
+  table{font-size:14px}
+  .stack thead{display:none}
+  .stack tr{display:grid;padding:10px 0;border-bottom:2px solid var(--line)}
+  .stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}
+  .stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mute);font-size:13px}
+  .stack td.n{text-align:start}
+  .stack .rowacts{justify-content:flex-start}
+}
